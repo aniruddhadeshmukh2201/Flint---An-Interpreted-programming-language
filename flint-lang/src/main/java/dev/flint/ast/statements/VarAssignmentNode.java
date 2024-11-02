@@ -1,4 +1,6 @@
-package dev.flint.ast;
+package dev.flint.ast.statements;
+
+import dev.flint.ast.AstNode;
 
 // Node for variable assignments
 public class VarAssignmentNode extends StatementNode {

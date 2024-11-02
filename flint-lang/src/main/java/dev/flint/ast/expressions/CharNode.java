@@ -1,4 +1,4 @@
-package dev.flint.ast;
+package dev.flint.ast.expressions;
 
 // Node for character literals
 public class CharNode extends ExpressionNode {

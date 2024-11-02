@@ -1,6 +1,6 @@
 package dev.flint.ast;
 
-package dev.flint.ast;
+package dev.flint.ast.statements;
 
 import java.util.List;
 

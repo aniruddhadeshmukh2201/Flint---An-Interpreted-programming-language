@@ -1,5 +1,4 @@
-package dev.flint.ast;
-
+package dev.flint.ast.statements;
 
 // IfNode class
 public class IfNode extends StatementNode {

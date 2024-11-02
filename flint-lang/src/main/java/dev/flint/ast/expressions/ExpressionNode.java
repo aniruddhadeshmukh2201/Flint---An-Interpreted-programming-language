@@ -1,4 +1,4 @@
-package dev.flint.ast;
+package dev.flint.ast.expressions;
 
 public abstract class ExpressionNode extends ASTNode {
     // Expressions typically evaluate to a value

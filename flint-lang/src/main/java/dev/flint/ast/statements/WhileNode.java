@@ -1,5 +1,4 @@
-package dev.flint.ast;
-
+package dev.flint.ast.statements;
 
 public class WhileNode extends StatementNode {
     private final ASTNode condition;

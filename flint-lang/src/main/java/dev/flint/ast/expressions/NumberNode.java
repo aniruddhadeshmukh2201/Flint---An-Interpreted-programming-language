@@ -1,4 +1,4 @@
-package dev.flint.ast;
+package dev.flint.ast.expressions;
 
 // Node for numeric literals
 public class NumberNode extends ExpressionNode {

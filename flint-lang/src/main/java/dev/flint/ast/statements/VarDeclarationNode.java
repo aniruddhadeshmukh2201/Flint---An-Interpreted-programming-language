@@ -1,4 +1,6 @@
-package dev.flint.ast;
+package dev.flint.ast.statements;
+
+import dev.flint.ast.AstNode;
 
 public class VarDeclarationNode extends StatementNode {
     private String name;

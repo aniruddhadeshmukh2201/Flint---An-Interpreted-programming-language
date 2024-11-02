@@ -1,4 +1,4 @@
-package dev.flint.ast;
+package dev.flint.ast.expressions;
 
 // Node for boolean literals
 public class BooleanNode extends ExpressionNode {

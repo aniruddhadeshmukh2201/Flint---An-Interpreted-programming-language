@@ -1,4 +1,7 @@
-package dev.flint.ast;
+package dev.flint.ast.statements;
+
+import dev.flint.ast.AstNode;
+import dev.flint.ast.expressions.ExpressionNode;
 
 // Node for arithmetic operations
 public class BinaryOperationNode extends ExpressionNode {
