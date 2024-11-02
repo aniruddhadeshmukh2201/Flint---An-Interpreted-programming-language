@@ -1,5 +1,3 @@
-package dev.flint.lexer;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,33 +39,24 @@ public class Lexer {
                 continue;
             }
 
-            if (currentChar == 't' || currentChar == 'f') {
-                tokens.add(new Token(TokenType.BOOLEAN, readBoolean()));
-                continue;
-            }
-
             if (Character.isLetter(currentChar)) {
                 String identifier = readIdentifier();
-                Token.Type type = TokenType.IDENTIFIER; // Default to identifier
-                if (identifier.equals("var") || identifier.equals("print")) {
-                    type = TokenType.KEYWORD; // Change to keyword if it's a keyword
-                }
+                TokenType type = getKeywordOrIdentifierType(identifier);
                 tokens.add(new Token(type, identifier));
                 continue;
             }
 
-            if (isOperator(currentChar)) {
-                tokens.add(new Token(TokenType.OPERATOR, readOperator()));
+            if (isOperatorStart(currentChar)) {
+                tokens.add(new Token(getOperatorTokenType(), readOperator()));
                 continue;
             }
 
             if (isPunctuation(currentChar)) {
-                tokens.add(new Token(TokenType.PUNCTUATION, String.valueOf(currentChar)));
+                tokens.add(new Token(getPunctuationTokenType(), String.valueOf(currentChar)));
                 advance();
                 continue;
             }
 
-            // If we reach here, we encountered an unrecognized character
             throw new RuntimeException("Unexpected character: " + currentChar);
         }
 
@@ -92,15 +81,6 @@ public class Lexer {
         return String.valueOf(charValue);
     }
 
-    private String readBoolean() {
-        StringBuilder booleanValue = new StringBuilder();
-        while (Character.isLetter(currentChar)) {
-            booleanValue.append(currentChar);
-            advance();
-        }
-        return booleanValue.toString();
-    }
-
     private String readIdentifier() {
         StringBuilder identifier = new StringBuilder();
         while (Character.isLetterOrDigit(currentChar) || currentChar == '_') {
@@ -110,20 +90,64 @@ public class Lexer {
         return identifier.toString();
     }
 
-    private boolean isOperator(char c) {
-        return "+-*/==!=&&||".indexOf(c) >= 0;
+    private TokenType getKeywordOrIdentifierType(String identifier) {
+        return switch (identifier) {
+            case "var" -> TokenType.VAR;
+            case "print" -> TokenType.PRINT;
+            case "if" -> TokenType.IF;
+            case "else" -> TokenType.ELSE;
+            case "while" -> TokenType.WHILE;
+            case "true", "false" -> TokenType.BOOLEAN;
+            default -> TokenType.IDENTIFIER;
+        };
+    }
+
+    private boolean isOperatorStart(char c) {
+        return "+-*/=!<>&|".indexOf(c) >= 0;
     }
 
     private String readOperator() {
         StringBuilder operator = new StringBuilder();
-        while (isOperator(currentChar)) {
+        while (isOperatorStart(currentChar)) {
             operator.append(currentChar);
             advance();
         }
         return operator.toString();
     }
 
+    private TokenType getOperatorTokenType() {
+        String operator = readOperator();
+        return switch (operator) {
+            case "=" -> TokenType.ASSIGN;
+            case "==" -> TokenType.EQUAL;
+            case "!=" -> TokenType.NOT_EQUAL;
+            case "<" -> TokenType.LESS_THAN;
+            case "<=" -> TokenType.LESS_EQUAL;
+            case ">" -> TokenType.GREATER_THAN;
+            case ">=" -> TokenType.GREATER_EQUAL;
+            case "+" -> TokenType.PLUS;
+            case "-" -> TokenType.MINUS;
+            case "*" -> TokenType.MULTIPLY;
+            case "/" -> TokenType.DIVIDE;
+            case "&&" -> TokenType.AND;
+            case "||" -> TokenType.OR;
+            case "!" -> TokenType.NOT;
+            default -> throw new RuntimeException("Unknown operator: " + operator);
+        };
+    }
+
     private boolean isPunctuation(char c) {
         return ";=(){}".indexOf(c) >= 0;
+    }
+
+    private TokenType getPunctuationTokenType() {
+        return switch (currentChar) {
+            case ';' -> TokenType.SEMICOLON;
+            case '(' -> TokenType.LPAREN;
+            case ')' -> TokenType.RPAREN;
+            case '{' -> TokenType.LBRACE;
+            case '}' -> TokenType.RBRACE;
+            default -> throw new RuntimeException("Unknown punctuation: " + currentChar);
+        };
     }
 }
