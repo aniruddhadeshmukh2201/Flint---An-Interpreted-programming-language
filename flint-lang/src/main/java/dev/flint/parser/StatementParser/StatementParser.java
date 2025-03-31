@@ -1,8 +1,12 @@
-package dev.flint.parser;
+package dev.flint.parser.StatementParser;
 
-import dev.flint.ast.*;
+import dev.flint.ast.statements.*;
+import dev.flint.ast.ASTNode;
+import dev.flint.ast.expressions.ExpressionNode;
 import dev.flint.lexer.Token;
 import dev.flint.lexer.TokenType;
+import dev.flint.parser.Parser;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,10 +17,10 @@ public class StatementParser {
         this.parser = parser;
     }
 
-    public ASTNode parseStatements() {
-        List<ASTNode> statements = new ArrayList<>();
+    public BlockNode parseStatements() {
+        List<StatementNode> statements = new ArrayList<>();
         while (!parser.isAtEnd()) {
-            statements.add(parseStatement());
+            statements.add( (StatementNode) parseStatement());
         }
         return new BlockNode(statements);
     }
@@ -33,57 +37,56 @@ public class StatementParser {
         } else if (parser.match(TokenType.IDENTIFIER)) {
             return parseAssignment();
         } else {
-            return parser.expressionParser.parseExpression();
+            return parser.getExpressionParser().parseExpression();
         }
     }
 
-    private ASTNode parsePrintStatement() {
+    private PrintNode parsePrintStatement() {
         parser.consume(TokenType.PRINT, "Expected 'print' keyword.");
-        ASTNode value = parser.expressionParser.parseExpression();
+        ExpressionNode value =  (ExpressionNode) parser.getExpressionParser().parseExpression();
         parser.consume(TokenType.SEMICOLON, "Expected ';' after print statement.");
         return new PrintNode(value);
     }
 
-    private ASTNode parseIfStatement() {
+    private IfNode parseIfStatement() {
         parser.consume(TokenType.IF, "Expected 'if' keyword.");
-        parser.consume(TokenType.LEFT_PAREN, "Expected '(' after 'if'.");
-        ASTNode condition = parser.expressionParser.parseExpression();
-        parser.consume(TokenType.RIGHT_PAREN, "Expected ')' after if condition.");
+        parser.consume(TokenType.LPAREN, "Expected '(' after 'if'.");
+        ExpressionNode condition = (ExpressionNode) parser.getExpressionParser().parseExpression();
+        parser.consume(TokenType.RPAREN, "Expected ')' after if condition.");
 
-        ASTNode thenBranch = parseStatement();
-
-        ASTNode elseBranch = null;
+        StatementNode thenBranch = (StatementNode) parseStatement();
+        StatementNode elseBranch = null;
         if (parser.match(TokenType.ELSE)) {
-            elseBranch = parseStatement();
+            elseBranch = (StatementNode) parseStatement();
         }
 
         return new IfNode(condition, thenBranch, elseBranch);
     }
 
-    private ASTNode parseWhileStatement() {
+    private WhileNode parseWhileStatement() {
         parser.consume(TokenType.WHILE, "Expected 'while' keyword.");
-        parser.consume(TokenType.LEFT_PAREN, "Expected '(' after 'while'.");
-        ASTNode condition = parser.expressionParser.parseExpression();
-        parser.consume(TokenType.RIGHT_PAREN, "Expected ')' after while condition.");
+        parser.consume(TokenType.LPAREN, "Expected '(' after 'while'.");
+        ExpressionNode condition = parser.getExpressionParser().parseExpression();
+        parser.consume(TokenType.RPAREN, "Expected ')' after while condition.");
 
-        ASTNode body = parseStatement();
+        StatementNode body = (StatementNode) parseStatement();
         return new WhileNode(condition, body);
     }
 
-    private ASTNode parseVarDeclaration() {
+    private VarDeclarationNode parseVarDeclaration() {
         parser.consume(TokenType.VAR, "Expected 'var' keyword.");
         Token identifier = parser.consume(TokenType.IDENTIFIER, "Expected variable name.");
         parser.consume(TokenType.EQUAL, "Expected '=' after variable name.");
-        ASTNode initializer = parser.expressionParser.parseExpression();
+        ExpressionNode initializer = (ExpressionNode) parser.getExpressionParser().parseExpression();
         parser.consume(TokenType.SEMICOLON, "Expected ';' after variable declaration.");
-        return new VarDeclarationNode(identifier, initializer);
+        return new VarDeclarationNode(identifier.getValue(), initializer);
     }
 
-    private ASTNode parseAssignment() {
+    private VarAssignmentNode parseAssignment() {
         Token identifier = parser.previous();
         parser.consume(TokenType.EQUAL, "Expected '=' after variable name.");
-        ASTNode value = parser.expressionParser.parseExpression();
+        ExpressionNode value = (ExpressionNode) parser.getExpressionParser().parseExpression();
         parser.consume(TokenType.SEMICOLON, "Expected ';' after assignment.");
-        return new AssignmentNode(identifier, value);
+        return new VarAssignmentNode(identifier, value);
     }
 }

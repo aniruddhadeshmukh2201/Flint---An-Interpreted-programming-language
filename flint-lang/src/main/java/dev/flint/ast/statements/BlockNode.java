@@ -1,18 +1,19 @@
-package dev.flint.ast;
-
 package dev.flint.ast.statements;
 
 import java.util.List;
 
+import dev.flint.ast.ASTNode;
+import dev.flint.interpreter.ExecutionContext;
+
 // BlockNode class
 public class BlockNode extends StatementNode {
-    private final List<ASTNode> statements;
+    private final List<StatementNode> statements;
 
-    public BlockNode(List<ASTNode> statements) {
+    public BlockNode(List<StatementNode> statements) {
         this.statements = statements;
     }
 
-    public List<ASTNode> getStatements() {
+    public List<StatementNode> getStatements() {
         return statements;
     }
 

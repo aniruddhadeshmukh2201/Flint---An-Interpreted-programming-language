@@ -1,5 +1,7 @@
 package dev.flint.ast.expressions;
 
+import dev.flint.interpreter.ExecutionContext;
+
 // Node for character literals
 public class CharNode extends ExpressionNode {
     private final char value;

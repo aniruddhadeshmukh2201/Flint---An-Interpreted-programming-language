@@ -1,8 +1,9 @@
 package dev.flint.parser;
 
-package parser;
+import dev.flint.lexer.Token;
+import dev.flint.lexer.TokenType;
 
-public class ParseUtils {
+public class ParserUtils {
     public static boolean isLiteral(Token token) {
         return token.getType() == TokenType.NUMBER || 
                token.getType() == TokenType.BOOLEAN || 

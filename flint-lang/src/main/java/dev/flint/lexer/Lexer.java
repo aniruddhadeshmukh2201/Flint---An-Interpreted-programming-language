@@ -1,3 +1,5 @@
+package dev.flint.lexer;
+
 import java.util.ArrayList;
 import java.util.List;
 

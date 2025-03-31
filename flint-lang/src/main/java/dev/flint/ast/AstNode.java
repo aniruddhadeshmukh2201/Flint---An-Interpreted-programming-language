@@ -1,6 +1,8 @@
 package dev.flint.ast;
 
-public abstract class AstNode {
+import dev.flint.interpreter.ExecutionContext;
+
+public abstract class ASTNode {
     public abstract Object execute(ExecutionContext context);
 }
 

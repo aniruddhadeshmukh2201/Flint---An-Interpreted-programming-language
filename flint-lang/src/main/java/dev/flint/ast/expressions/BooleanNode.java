@@ -1,5 +1,7 @@
 package dev.flint.ast.expressions;
 
+import dev.flint.interpreter.ExecutionContext;
+
 // Node for boolean literals
 public class BooleanNode extends ExpressionNode {
     private final boolean value;

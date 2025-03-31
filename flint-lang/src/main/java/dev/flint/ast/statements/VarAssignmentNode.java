@@ -1,14 +1,16 @@
 package dev.flint.ast.statements;
 
-import dev.flint.ast.AstNode;
+import dev.flint.ast.ASTNode;
+import dev.flint.interpreter.ExecutionContext;
+import dev.flint.lexer.Token;
 
 // Node for variable assignments
 public class VarAssignmentNode extends StatementNode {
     private String name;
-    private AstNode value;
+    private ASTNode value;
 
-    public VarAssignmentNode(String name, AstNode value) {
-        this.name = name;
+    public VarAssignmentNode(Token identifier, ASTNode value) {
+        this.name = identifier.getValue();
         this.value = value;
     }
 

@@ -1,6 +1,10 @@
 package dev.flint.ast.expressions;
 
+import dev.flint.ast.ASTNode;
+import dev.flint.interpreter.ExecutionContext;
+
 public abstract class ExpressionNode extends ASTNode {
-    // Expressions typically evaluate to a value
-    public abstract Object evaluate(ExecutionContext context);
+
+    @Override
+    public abstract Object execute(ExecutionContext context);
 }

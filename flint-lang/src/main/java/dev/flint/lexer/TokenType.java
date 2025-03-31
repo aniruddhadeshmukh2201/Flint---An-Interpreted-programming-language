@@ -4,7 +4,7 @@ package dev.flint.lexer;
  * Enum representing the different types of tokens that the lexer can produce.
  */
 public enum TokenType {
-    // Literals
+    // Literals 
     NUMBER,       // Numeric literals like 123
     BOOLEAN,      // Boolean literals like true or false
     CHAR,         // Character literals like 'a'

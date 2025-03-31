@@ -1,12 +1,18 @@
 package dev.flint.ast.statements;
 
+import java.util.List;
+
+import dev.flint.ast.ASTNode;
+import dev.flint.ast.expressions.ExpressionNode;
+import dev.flint.interpreter.ExecutionContext;
+
 // IfNode class
 public class IfNode extends StatementNode {
-    private final ASTNode condition;
-    private final ASTNode thenBranch;
-    private final ASTNode elseBranch; // Optional
+    private final ExpressionNode condition;
+    private final StatementNode thenBranch;
+    private final StatementNode elseBranch; // Optional
 
-    public IfNode(ASTNode condition, ASTNode thenBranch, ASTNode elseBranch) {
+    public IfNode(ExpressionNode condition, StatementNode thenBranch, StatementNode elseBranch) {
         this.condition = condition;
         this.thenBranch = thenBranch instanceof BlockNode ? thenBranch : new BlockNode(List.of(thenBranch)); // Ensure thenBranch is a block
         this.elseBranch = elseBranch != null && !(elseBranch instanceof BlockNode) ? new BlockNode(List.of(elseBranch)) : elseBranch; // Ensure elseBranch is a block if it exists

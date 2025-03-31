@@ -1,12 +1,14 @@
 package dev.flint.ast.statements;
 
-import dev.flint.ast.AstNode;
+import dev.flint.ast.ASTNode;
+import dev.flint.ast.expressions.ExpressionNode;
+import dev.flint.interpreter.ExecutionContext;
 
 public class VarDeclarationNode extends StatementNode {
     private String name;
-    private AstNode value; // The value can be another expression node
+    private ExpressionNode value; // The value can be another expression node
 
-    public VarDeclarationNode(String name, AstNode value) {
+    public VarDeclarationNode(String name, ExpressionNode value) {
         this.name = name;
         this.value = value;
     }

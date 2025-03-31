@@ -1,12 +1,13 @@
 package dev.flint.ast.statements;
 
-import dev.flint.ast.AstNode;
+import dev.flint.ast.ASTNode;
+import dev.flint.interpreter.ExecutionContext;
 
 // Node for print statements
 public class PrintNode extends StatementNode {
-    private final AstNode expression;
+    private final ASTNode expression;
 
-    public PrintNode(AstNode expression) {
+    public PrintNode(ASTNode expression) {
         this.expression = expression;
     }
 

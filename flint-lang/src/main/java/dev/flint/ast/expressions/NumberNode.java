@@ -1,11 +1,13 @@
 package dev.flint.ast.expressions;
 
+import dev.flint.interpreter.ExecutionContext;
+
 // Node for numeric literals
 public class NumberNode extends ExpressionNode {
-    private final double value;
+    private final Double value;
 
-    public NumberNode(double value) {
-        this.value = value;
+    public NumberNode(double number) {
+        this.value = number;
     }
 
     @Override
